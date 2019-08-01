@@ -14,9 +14,41 @@ gi.workflows.show_workflow(workflowID)
 
 workflowDict = gi.workflows.export_workflow_dict(workflowID)
 
+# getting the dictionary mapped/formatted to BCO-schema
+def workflow_conversion(workflow):
+    workflow['bco_id'] = workflow.pop('uuid', '')
+    workflow['keywords'] = workflow.pop('tags', '')
+    workflow['platform'] = 'Galaxy'
+    workflow['version'] = str(str(workflow['version']) + '.0')
+    workflow['bco_id'] = workflow.pop('uuid', '')
 
-with open('test_workflow.json', 'w', encoding='utf-8') as f:
-    json.dump(workflowDict, f, ensure_ascii=False, indent=4)
+    # need to iterate through nested workflow steps for pipeline steps
+
+    for k, v in workflow['steps'].items():
+        # k is a str, v is a dict
+        for k, v in k.items():
+            k['description'] = k.pop('label', '')
+            k['version'] = k.pop('tool_version', '')
+            
+            k['input_list'] = dict(k.pop('')) # pull from previous step output?
+
+        
+
+workflow_conversion(workflowDict)
+
+'''
+def remove_empties_from_dict(a_dict):
+    new_dict = {}
+    for k, v in a_dict.items():
+        if isinstance(v, list):
+            v = remove_empties_from_dict(v)
+        if v is not “”:
+            new_dict[k] = v
+    return new_dict or None
+'''
+# dumping the dict to JSON
+#with open('test_workflow.json', 'w', encoding='utf-8') as f:
+#   json.dump(workflowDict, f, ensure_ascii=False, indent=4)
 
 
 

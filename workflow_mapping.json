@@ -55,7 +55,7 @@
         ],
         "pipeline_steps": [     <- workflows   ---- what should we do about post_job_actions? hmm..
             {
-                "step_number": 1,
+                "step_number": 1, <- key value (int needs to be converted) for steps
                 "name": "Trimmomatic",  <- name
                 "description": "Trim base to a quality score of >=20", <- label
                 "version": "0.36", <- tool version

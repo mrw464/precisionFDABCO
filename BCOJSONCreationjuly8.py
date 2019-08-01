@@ -168,7 +168,7 @@ def createDescriptionDomain(inputBCODict):
     desc_domain_keys = ['keywords', 'xref', 'platform', 'pipeline_steps']
     desc_xref_keys = ['namespace', 'name', 'ids', 'access_time']
     desc_pipeline_keys = ['step_number', 'name', 'description', 'version', 'prerequisites', 'input_list', 'output_list']
-    dsec_prereq_keys = ['name', 'uri']
+    desc_prereq_keys = ['name', 'uri']
 
     desc_keywords_value = input("Input pipeline keywords separated by a ',': ")
     desc_keywords_value = desc_keywords_value.split(",")
@@ -205,7 +205,6 @@ def createDescriptionDomain(inputBCODict):
     desc_prereq_values = []
     desc_prereq_input_values = []
     desc_prereq_output_values = []
-    desc_prereq_key = ['name', 'uri']
     desc_pipelinestep_num = 0
     isContinue = "Y"
     while(isContinue.upper() == "Y"):

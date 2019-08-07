@@ -13,11 +13,7 @@ gi = GalaxyInstance(galaxyIP, key=galaxyAPIkey)
 libs = gi.libraries.get_libraries()
 
 
-<<<<<<< HEAD
 workflowID = '958f78270fc8f55c'
-=======
-workflowID = '8d8e8927d63803ef'
->>>>>>> cadf56309bdaf0bbd42f4f2b47d72eed21aa8664
 #workflowID = str(input('What is the workflow ID to import?\n'))
 
 gi.workflows.show_workflow(workflowID)
@@ -39,7 +35,6 @@ def workflow_conversion(workflow):
     # definiting sub-function for extracting step outputs (to be inputs for the next step)
     def output_extract(v):
         output = []
-<<<<<<< HEAD
         print(f'V for output extract: {v}')
         if v.get('outputs', None) != None:
 
@@ -54,14 +49,6 @@ def workflow_conversion(workflow):
                 output_item = str(output_item['name'] + '.' + output_item['type'])
                 output_item = {"uri":output_item}               
                 output = dict(output_item)
-=======
-        if v.pop('outputs', '') != '':
-            output_list = v.pop('outputs', '')
-            for i in output_list:
-                output_item = str(output_list['name'] + '.' + output_list['type'])
-                output_item = {"uri":output_item}
-                output = output.append(output_item.copy())
->>>>>>> cadf56309bdaf0bbd42f4f2b47d72eed21aa8664
         return output
 
     for k, v in workflow['steps'].items():

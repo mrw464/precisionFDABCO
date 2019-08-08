@@ -24,10 +24,12 @@ workflowDict = gi.workflows.export_workflow_dict(workflowID)
 def workflow_conversion(workflow):
     newworkflow = {}
     newworkflow['bco_id'] = workflow.pop('uuid', '')
-    newworkflow['keywords'] = workflow.pop('tags', '')
-    newworkflow['platform'] = 'Galaxy'
-    newworkflow['version'] = str(str(workflow['version']) + '.0')
+    keywords = workflow.pop('tags', '')
+    version = str(str(workflow['version']) + '.0')
     newworkflow['bco_id'] = workflow.pop('uuid', '')
+    name = workflow.pop('name', '')
+    newworkflow['provenance_domain'] = {"name": name, "version": version}
+
 
     # need to iterate through nested workflow steps for pipeline steps
     pipeline_steps = []
@@ -53,10 +55,8 @@ def workflow_conversion(workflow):
     for k, v in workflow['steps'].items():
         # k is a str, v is a dict
         step_dict = {}
-
-        print(f'k: {k}')
-        print(f'v: {v}')
         k = int(k)
+        step_dict['name'] = v.pop('name', '')
         step_dict['description'] = v.pop('label', '')
         step_dict['version'] = v.pop('tool_version', '')
         step_dict['step_number'] = int(v.pop('id', ''))
@@ -79,7 +79,37 @@ def workflow_conversion(workflow):
 
         pipeline_steps.append(step_dict.copy()) 
 
-    newworkflow['pipeline_steps'] = pipeline_steps
+
+    newworkflow['description_domain'] = {
+        "keywords": [keywords],
+        "platform": ["Galaxy"], 
+        "pipeline_steps": pipeline_steps
+    }
+
+    software_preq = {}
+    for k, v in workflow['steps'].items():
+        if v.get('tool_id', None) is not None:
+            tool_shed = v.get('tool_shed_repository', '')
+            if tool_shed != '':
+                tool_name = tool_shed['name']
+            tool_version = v.get('tool_version', '')
+            tool_url = v.get('tool_id', '')
+            if tool_url != '':
+                if "http://" or "https://" not in str.startswith(tool_url, beg=0, end=7):
+                    tool_url = "http://" + tool_url
+                
+            tool_uri = {"uri": tool_url}
+            software_preq.update({"name": tool_name, "version": tool_version, "uri": tool_uri})
+
+    script_name = str(name + '.ga')
+    script_uri = str("file://localhost/" + script_name)
+    script_uri_dict = {"uri": script_uri}
+    newworkflow["execution_domain"] = {
+        "script": script_uri_dict,
+        "script_driver": "Galaxy",
+        "software_prerequisites": software_preq
+
+    }
 
     return newworkflow
 

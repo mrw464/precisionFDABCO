@@ -139,10 +139,10 @@
         "script_driver": "Python", <- put this as galaxy
         "software_prerequisites": [ <- could try to pull these from tools used in the galaxy workflow, or easier to just use galaxy version?
             {
-                "name": "Trimmomatic",
-                "version": "0.36",
+                "name": "Trimmomatic", tool_shed_repository > name
+                "version": "0.36", <- tool_version
                 "uri": {
-                    "uri": "http://example.com/dna.cgi?cmd=dna-hexagon&cmdMode=-"
+                    "uri": "http://example.com/dna.cgi?cmd=dna-hexagon&cmdMode=-" <-tool_id
                 }
               },
             {

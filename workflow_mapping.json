@@ -185,8 +185,8 @@
         "input_subdomain": [ <- can take the first input I think from workflow
             {
                 "uri": {
-                    "filename": "HG19 reference Genome",
-                    "uri": "http://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/hg19.fa.gz"
+                    "filename": "HG19 reference Genome", < - don't think having a filename is allowed?
+                    "uri": "http://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/hg19.fa.gz" 
                 }
             }
         ],

@@ -1,6 +1,8 @@
 from bioblend.galaxy import GalaxyInstance
 import json
 import pprint
+from pathlib import Path
+import pathlib
 
 
 galaxyIP = 'https://usegalaxy.org/'
@@ -48,6 +50,7 @@ def workflow_conversion(workflow):
             for i in range(len(output_list)):
                 output_item = output_list[i]
                 output_item = str(output_item['name'] + '.' + output_item['type'])
+                output_item = "file://localhost/" + output_item
                 output_item = {"uri":output_item}               
                 output = dict(output_item)
         return output
@@ -86,7 +89,7 @@ def workflow_conversion(workflow):
         "pipeline_steps": pipeline_steps
     }
 
-    software_preq = {}
+    software_preq = []
     for k, v in workflow['steps'].items():
         if v.get('tool_id', None) is not None:
             tool_shed = v.get('tool_shed_repository', '')
@@ -99,7 +102,7 @@ def workflow_conversion(workflow):
                     tool_url = "http://" + tool_url
                 
             tool_uri = {"uri": tool_url}
-            software_preq.update({"name": tool_name, "version": tool_version, "uri": tool_uri})
+            software_preq.append({"name": tool_name, "version": tool_version, "uri": tool_uri})
 
     script_name = str(name + '.ga')
     script_uri = str("file://localhost/" + script_name)
@@ -110,6 +113,34 @@ def workflow_conversion(workflow):
         "software_prerequisites": software_preq
 
     }
+
+    input_subdomain = {"uri": ""}
+    output_subdomain = {"uri": "", "mediatype": ""}
+    overall_input = newworkflow['description_domain']["pipeline_steps"][0]['input_list']
+    input_subdomain.update(overall_input)
+    step_length = int(len(newworkflow['description_domain']["pipeline_steps"]))
+    step_length = step_length - 1
+    overall_output = newworkflow['description_domain']["pipeline_steps"][step_length]['output_list']
+    output_subdomain['uri'] = overall_output
+    media_type_dict = {
+    ".txt": "text/plain",
+    ".json": "application/json",
+    ".html": "text/html",
+    ".tabular": "text/x-tabular",
+    ".fasta": "text/x-fasta",
+    ".input": "text/x-input",
+    }
+
+    file_extension = Path(overall_output["uri"]).suffix
+    if file_extension in media_type_dict.keys():            
+        media_type = media_type_dict[file_extension]
+        output_subdomain['mediatype'] = media_type
+        # should I put an else here to make media type blank?
+            
+    
+
+    newworkflow["io_domain"] = {"input_subdomain": input_subdomain, "output_subdomain": output_subdomain}
+
 
     return newworkflow
 

@@ -4,6 +4,39 @@ import datetime
 import BCO_Conformance_Tool
 import os
 
+#imports for web-forms
+from flask import Flask, escape, request
+
+app = Flask(__name__)
+
+from flask_wtf import FlaskForm
+from wtforms import StringField
+from wtforms.validators import DataRequired
+from flask_wtf.file import FileField, FileRequired
+from werkzeug.utils import secure_filename
+
+class form(FlaskForm):
+    name = StringField('name', validators=[DataRequired()])
+
+
+    
+class PhotoForm(FlaskForm):
+    photo = FileField(validators=[FileRequired()])
+
+@app.route('/', methods=['GET', 'POST'])
+def upload():
+    if form.validate_on_submit():
+        f = form.photo.data
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(
+            app.instance_path, 'photos', filename
+        ))
+        return redirect(url_for('index'))
+
+    return render_template('upload.html', form=form)
+
+app.run(debug=True,port=8080)
+
 
 
 # The method is called to create a variable to make a dictionary

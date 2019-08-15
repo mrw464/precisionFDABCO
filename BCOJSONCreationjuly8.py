@@ -5,36 +5,56 @@ import BCO_Conformance_Tool
 import os
 
 #imports for web-forms
-from flask import Flask, escape, request
+
+
+
+from wtforms.validators import DataRequired
+from werkzeug.utils import secure_filename
+from flask import render_template, Flask, flash, request
+from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 
 app = Flask(__name__)
 
-from flask_wtf import FlaskForm
-from wtforms import StringField
-from wtforms.validators import DataRequired
-from flask_wtf.file import FileField, FileRequired
-from werkzeug.utils import secure_filename
 
-class form(FlaskForm):
-    name = StringField('name', validators=[DataRequired()])
+class webform(Form):
+    name = TextField('Name:', validators=[validators.DataRequired()])
 
-
+SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = SECRET_KEY
     
-class PhotoForm(FlaskForm):
-    photo = FileField(validators=[FileRequired()])
-
 @app.route('/', methods=['GET', 'POST'])
+def handle_post_request():
+    form = webform(request.form())
+    if request.method == "POST" and form.validate():
+            with open('webform_output.json', 'w') as f:
+                json.dump(form, f, indent=4)
+            return 'OK'
+    else:
+        flash('Error: All Fields are Required')        
+
+    return render_template('workflow_form.html', form=form)
+
+'''
+with open('file.json', 'w') as f:
+    json.dump(request.form, f)
+return render_html('your_template.html')
+
 def upload():
+    form = webform()
     if form.validate_on_submit():
-        f = form.photo.data
-        filename = secure_filename(f.filename)
-        f.save(os.path.join(
-            app.instance_path, 'photos', filename
-        ))
-        return redirect(url_for('index'))
+        name = form.name.data
+        
+        flash(name)
+        func = request.environ.get('werkzeug.server.shutdown')
+        return func()
+    return render_template('workflow_form.html', form=form)
+'''
 
-    return render_template('upload.html', form=form)
 
+
+
+SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = SECRET_KEY
 app.run(debug=True,port=8080)
 
 

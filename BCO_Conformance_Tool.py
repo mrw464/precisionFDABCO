@@ -134,7 +134,7 @@ def errorHandle(ve, url_name):
     if ve.validator_value is not False:
         checkForErrorMessage(ve.validator_value)
     relativePathLength = len(ve.relative_path)
-    print(f'relativepathlengh: {relativePathLength}')
+    print(f'relativepathlength: {relativePathLength}')
     if relativePathLength > 1:
         if 'is not of type' in ve.message:
             errorOutput(ve.relative_path[-1], ve, url_name, ve.relative_path[-2])
@@ -167,6 +167,8 @@ def errorHandle(ve, url_name):
                 if i in ve.message:
                     index = ve.validator_value.index(i)
                     index += 1
+                    if index > len(ve.validator_value):
+                        index = -1
                     next_item_for_root_level = ve.validator_value[index]
                     errorOutput(next_item_for_root_level, ve, url_name) 
 
@@ -225,7 +227,7 @@ def errorOutput(lookup_word, ve, url_name, instance_number=None):
     with open(url_name) as html_file:
         soup = BeautifulSoup(html_file.read(), features='html.parser')
 
-        if instance_number is not None:
+        if instance_number is not None and isinstance(instance_number, int):
 
             tag = soup.find_all(text=re.compile(lookup_word))
 

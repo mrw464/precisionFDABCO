@@ -1,0 +1,241 @@
+{
+    "bco_id": "",
+    "bco_spec_version": "",
+    "checksum": "910c6e241d226ef267372f684982b76c64e2b37f512b4917a8eed6b82c8d1ae4",
+    "provenance_domain": {
+        "name": "Workflow for Campylobacter jejuni Lipooliogosaccharide biosynthesis locus typing",
+        "version": "3.0",
+        "review": [
+            {
+                "status": "approved",
+                "reviewer_comment": "comment",
+                "date": "2019-08-15T17:29:10.200279",
+                "reviewer": {
+                    "name": "mark",
+                    "affiliation": "gw",
+                    "email": "mark@gw.edu",
+                    "contribution": [
+                        "1",
+                        "2",
+                        "3"
+                    ]
+                }
+            }
+        ],
+        "derived_from": "",
+        "obsolete_after": "",
+        "embargo": {},
+        "created": "2019-08-15T17:29:22.169199",
+        "modified": "2019-08-15T17:29:22.169199",
+        "contributors": [
+            {
+                "name": "bob",
+                "affiliation": "lw",
+                "email": "bob@lw.edu",
+                "contribution": [
+                    "1",
+                    "2",
+                    "3"
+                ]
+            }
+        ],
+        "license": "http://license.com"
+    },
+    "usability_domain": [
+        "one sentence for search"
+    ],
+    "description_domain": {
+        "keywords": [
+            []
+        ],
+        "xref": [],
+        "platform": [
+            "Galaxy"
+        ],
+        "pipeline_steps": [
+            {
+                "name": "Input dataset collection",
+                "description": null,
+                "version": null,
+                "step_number": 0,
+                "input_list": {
+                    "uri": "urn:dataset:user_provided_dataset"
+                },
+                "output_list": null
+            },
+            {
+                "name": "Input dataset",
+                "description": null,
+                "version": null,
+                "step_number": 1,
+                "input_list": null,
+                "output_list": null
+            },
+            {
+                "name": "extractseq",
+                "description": null,
+                "version": "5.0.0",
+                "step_number": 2,
+                "input_list": null,
+                "output_list": {
+                    "uri": "file://localhost/out_file1.fasta"
+                }
+            },
+            {
+                "name": "FASTA-to-Tabular",
+                "description": null,
+                "version": "1.1.0",
+                "step_number": 3,
+                "input_list": {
+                    "uri": "file://localhost/out_file1.fasta"
+                },
+                "output_list": {
+                    "uri": "file://localhost/output.tabular"
+                }
+            },
+            {
+                "name": "Collapse Collection",
+                "description": null,
+                "version": "4.0",
+                "step_number": 4,
+                "input_list": {
+                    "uri": "file://localhost/output.tabular"
+                },
+                "output_list": {
+                    "uri": "file://localhost/output.input"
+                }
+            },
+            {
+                "name": "FASTA-to-Tabular",
+                "description": null,
+                "version": "1.1.0",
+                "step_number": 5,
+                "input_list": {
+                    "uri": "file://localhost/output.input"
+                },
+                "output_list": {
+                    "uri": "file://localhost/output.tabular"
+                }
+            },
+            {
+                "name": "Concatenate datasets",
+                "description": null,
+                "version": "0.1.0",
+                "step_number": 6,
+                "input_list": {
+                    "uri": "file://localhost/output.tabular"
+                },
+                "output_list": {
+                    "uri": "file://localhost/out_file1.input"
+                }
+            },
+            {
+                "name": "Tabular-to-FASTA",
+                "description": null,
+                "version": "1.1.0",
+                "step_number": 7,
+                "input_list": {
+                    "uri": "file://localhost/out_file1.input"
+                },
+                "output_list": {
+                    "uri": "file://localhost/output.fasta"
+                }
+            },
+            {
+                "name": "MAFFT",
+                "description": null,
+                "version": "7.221.3",
+                "step_number": 8,
+                "input_list": {
+                    "uri": "file://localhost/output.fasta"
+                },
+                "output_list": {
+                    "uri": "file://localhost/outputTree.txt"
+                }
+            }
+        ]
+    },
+    "execution_domain": {
+        "script": [
+            "uri"
+        ],
+        "script_driver": "Galaxy",
+        "software_prerequisites": [
+            {
+                "name": "emboss_5",
+                "version": "",
+                "uri": {
+                    "uri": "http://toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: extractseq35/5.0.0"
+                }
+            },
+            {
+                "name": "fasta_to_tabular",
+                "version": "",
+                "uri": {
+                    "uri": "http://toolshed.g2.bx.psu.edu/repos/devteam/fasta_to_tabular/fasta2tab/1.1.0"
+                }
+            },
+            {
+                "name": "collapse_collections",
+                "version": "",
+                "uri": {
+                    "uri": "http://toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/4.0"
+                }
+            },
+            {
+                "name": "fasta_to_tabular",
+                "version": "",
+                "uri": {
+                    "uri": "http://toolshed.g2.bx.psu.edu/repos/devteam/fasta_to_tabular/fasta2tab/1.1.0"
+                }
+            },
+            {
+                "name": "text_processing",
+                "version": "",
+                "uri": {
+                    "uri": "http://toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cat/0.1.0"
+                }
+            },
+            {
+                "name": "tabular_to_fasta",
+                "version": "",
+                "uri": {
+                    "uri": "http://toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fasta/tab2fasta/1.1.0"
+                }
+            },
+            {
+                "name": "mafft",
+                "version": "",
+                "uri": {
+                    "uri": "http://toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/7.221.3"
+                }
+            }
+        ],
+        "external_data_endpoints": [
+            {
+                "name": "endpoint",
+                "url": "http://endpoint.com/"
+            }
+        ],
+        "environment_variables": {
+            "environmental_variables": {
+                "enviro1": "2.3"
+            }
+        }
+    },
+    "io_domain": {
+        "input_subdomain": [
+            {
+                "uri": "urn:dataset:user_provided_dataset"
+            }
+        ],
+        "output_subdomain": [
+            {
+                "uri": {
+                    "uri": "file://localhost/outputTree.txt"
+                },
+                "mediatype": "text/plain"
+            }
+        ]
+    }
+}

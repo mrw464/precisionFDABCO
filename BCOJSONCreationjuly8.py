@@ -541,7 +541,6 @@ def createErrDomain(inputBCODict):
             algo_stat_list.append(algo_stat_dict)
 
         algo_error = {"comment": algo_err_overall_comment, "log_filename": algo_err_logfile, "exclusion_rules": algo_stat_list}
-        ""
         err_domain_dict['algorithmic_error'] = algo_error
 
     inputBCODict['error_domain'] = err_domain_dict

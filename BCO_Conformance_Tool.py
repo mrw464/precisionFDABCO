@@ -137,13 +137,19 @@ def errorHandle(ve, url_name):
     print(f'relativepathlength: {relativePathLength}')
     if relativePathLength > 1:
         if 'is not of type' in ve.message:
-            errorOutput(ve.relative_path[-1], ve, url_name, ve.relative_path[-2])
+            try:
+                int(ve.relative_path[-1])
+                errorOutput(ve.relative_path[-2], ve, url_name, ve.relative_path[-1])    
+            except ValueError:
+                errorOutput(ve.relative_path[-1], ve, url_name, ve.relative_path[-2])
         elif 'does not match' in ve.message:
             look_up = patternFailLookup(ve)
             errorOutput(look_up, ve, url_name)
         elif ve.validator == 'additionalProperties':
             look_up = additionalPropCheck(ve)
             errorOutput(look_up, ve, url_name)
+        elif 'is a required property' in ve.message:
+            errorOutput(ve.relative_path[-1], ve, url_name)
         else:
             for i in ve.validator_value:
                 if i in ve.message:

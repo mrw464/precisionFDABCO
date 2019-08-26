@@ -52,7 +52,7 @@ def createProvenanceDomain(inputBCODict, galaxy_status, workflowDict):
 
     prov_review_values = []
     while True:
-        prov_review_status = input("Input Status of BCO: ")
+        prov_review_status = input("Input latest status of review of this BCO ('approved', 'rejected', etc):\n")
         while prov_review_status not in {"unreviewed", "in-review", "approved", "rejected", "suspended"}:
             print("Please input one of the following: unreviewed, in-review, approved, rejected or suspended")
             prov_review_status = input("Input Status of BCO: ")
@@ -61,7 +61,7 @@ def createProvenanceDomain(inputBCODict, galaxy_status, workflowDict):
         prov_reviewer_name = input("Input Reviewer Name: ")
         prov_reviewer_affiliation = input("Input reviewer affiliation: ")
         prov_reviewer_email = input("Input reviewer Email: ")
-        prov_reviewer_contribution = input("Input contributions separated by ',' : ")
+        prov_reviewer_contribution = input("Input contributions of reviewer separated by ',' (e.g. 'approved', 'suspended'): ")
         prov_reviewer_contribution = prov_reviewer_contribution.split(",")
         prov_reviewer_contribution = [x.strip(' ') for x in prov_reviewer_contribution]
         continue_input = input("Do you wish to add another review? (Y/N) : ")
@@ -186,7 +186,9 @@ def createDescriptionDomain(inputBCODict, galaxy_status, workflowDict):
     desc_keywords_value = ''
     if galaxy_status == True:
         desc_keywords_value = workflowDict['description_domain'].get('keywords', '')
-    if desc_keywords_value is None or desc_keywords_value == '' or desc_keywords_value == '[]':
+        if not desc_keywords_value[0]:
+            desc_keywords_value = None
+    if desc_keywords_value is None or desc_keywords_value == '':
         desc_keywords_value = input("Input pipeline keywords separated by a ',': ")
         desc_keywords_value = desc_keywords_value.split(",")
         desc_keywords_value = [x.strip(' ') for x in desc_keywords_value]
@@ -396,7 +398,7 @@ def createExecutionDomain(inputBCODict, galaxy_status, workflowDict):
 
     exec_env_type_value = input("Input type of environmental variable: ")
     exec_env_val_value = input("Input value of environmental variable: ")
-    exec_env_values_temp = {exec_env_type_value : exec_env_val_value}
+    exec_env_values_temp = str(exec_env_type_value + " : " + exec_env_val_value)
     exec_env_values = {"environmental_variables": exec_env_values_temp}
 
     exec_domain_values = [exec_script_values, exec_driver_value, exec_prereq_values, exec_external_values,
@@ -504,18 +506,46 @@ def createErrDomain(inputBCODict):
     err_domain_dict = {'empirical_error': {'':''}, 'algorithmic_error': {'':''}}
     emp_status = input("Input empirical errors? (Y/N): ")
     if emp_status.upper() == 'Y':
-        emp_err_var = input("Input empirical error variable: ")
-        emp_err_value = input("Input empirical error variable value threshhold (ex. '>3.0'): ")
-        emperical_error = {emp_err_var: emp_err_value}
+        emp_err_overall_comment = input("Input overall empirical error comment/description:\n")
+        emp_stat_list = []
+        emp_stat_amount = input("How many empirical errors would you like to enter? (ex. '5'):\n")
+        emp_stat_amount = int(emp_stat_amount)
+
+        for i in range(emp_stat_amount):
+
+            emp_err_var = input("Input empirical error variable: ")
+            emp_err_value = input("Input empirical error variable value threshhold in numeric format (ex. '3.0'): ")
+            emp_err_value = float(emp_err_value)
+            emp_err_desc = input("Input comment for this specific empirical error:\n")
+            emp_stat_dict = {"key": emp_err_var, "value": emp_err_value, "description": emp_err_desc}
+            emp_stat_list.append(emp_stat_dict)
+
+        emperical_error = {"comment": emp_err_overall_comment, "statistics": emp_stat_list}
+        
         err_domain_dict['empirical_error'] = emperical_error
         
     algo_status = input("Input algorithmic errors? (Y/N): ")
     if algo_status.upper() == 'Y':
-        algo_err_var = input("Input algorithmic error variable: ")
-        algo_err_value = input("Input algorithmic error variable value threshhold (ex. '>3.0'): ")
-        algo_error = {algo_err_var: algo_err_value}
+        algo_err_overall_comment = input("Input overall algorithmic error comment/description:\n")
+        algo_err_logfile = input("Input the logfile name for identifying algorithmic errors:\n")
+        algo_stat_list = []
+        algo_stat_amount = input("How many algorithmic constraints would you like to enter? (ex. '5'):\n")
+        algo_stat_amount = int(algo_stat_amount)
+
+        for i in range(algo_stat_amount):
+
+            algo_err_var = input("Input algorithmic error constraint: ")
+            algo_err_value = input("Input algorithmic error constraint unique value in numeric format (ex. '3.0'): ")
+            algo_err_value = float(algo_err_value)
+            algo_stat_dict = {"constraint": algo_err_var, "unique_values": algo_err_value}
+            algo_stat_list.append(algo_stat_dict)
+
+        algo_error = {"comment": algo_err_overall_comment, "log_filename": algo_err_logfile, "exclusion_rules": algo_stat_list}
+        ""
         err_domain_dict['algorithmic_error'] = algo_error
-            
+
+    inputBCODict['error_domain'] = err_domain_dict
+
     return inputBCODict
 
 

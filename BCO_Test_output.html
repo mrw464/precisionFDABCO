@@ -98,6 +98,7 @@ body .vm { color: #000000 } /* Name.Variable.Magic */
 body .il { color: #0000cf; font-weight: bold } /* Literal.Number.Integer.Long */
 
   .success {background-color: lime;}
+  .error {background-color: yellow;}
   </style>
  </head>
  <body>
@@ -109,31 +110,29 @@ body .il { color: #0000cf; font-weight: bold } /* Literal.Number.Integer.Long */
     BCO-schema JSON file below. Errors are highlighted in yellow, if present.
    <br/>
    <br/>
-   <span class="success">
-    BCO COMPLIANCE: SUCCESS
+   <span class="error">
+    BCO COMPLIANCE: FAILED
    </span>
   </span>
   <div class="highlight">
    <pre><span></span><span class="p">{</span>
     <span class="nt">"bco_id"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
     <span class="nt">"bco_spec_version"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
-    <span class="nt">"checksum"</span><span class="p">:</span> <span class="s2">"910c6e241d226ef267372f684982b76c64e2b37f512b4917a8eed6b82c8d1ae4"</span><span class="p">,</span>
+    <span class="nt">"checksum"</span><span class="p">:</span> <span class="s2">"d71cf8d7eb9c03693fae3d1bce724c2641670b2b3f2642dce1c3e2c9ca35a24e"</span><span class="p">,</span>
     <span class="nt">"provenance_domain"</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">"name"</span><span class="p">:</span> <span class="s2">"Workflow for Campylobacter jejuni Lipooliogosaccharide biosynthesis locus typing"</span><span class="p">,</span>
         <span class="nt">"version"</span><span class="p">:</span> <span class="s2">"3.0"</span><span class="p">,</span>
         <span class="nt">"review"</span><span class="p">:</span> <span class="p">[</span>
             <span class="p">{</span>
                 <span class="nt">"status"</span><span class="p">:</span> <span class="s2">"approved"</span><span class="p">,</span>
-                <span class="nt">"reviewer_comment"</span><span class="p">:</span> <span class="s2">"comment"</span><span class="p">,</span>
-                <span class="nt">"date"</span><span class="p">:</span> <span class="s2">"2019-08-15T17:29:10.200279"</span><span class="p">,</span>
+                <span class="nt">"reviewer_comment"</span><span class="p">:</span> <span class="s2">"comomen1"</span><span class="p">,</span>
+                <span class="nt">"date"</span><span class="p">:</span> <span class="s2">"2019-08-26T16:10:35.186022"</span><span class="p">,</span>
                 <span class="nt">"reviewer"</span><span class="p">:</span> <span class="p">{</span>
                     <span class="nt">"name"</span><span class="p">:</span> <span class="s2">"mark"</span><span class="p">,</span>
-                    <span class="nt">"affiliation"</span><span class="p">:</span> <span class="s2">"gw"</span><span class="p">,</span>
-                    <span class="nt">"email"</span><span class="p">:</span> <span class="s2">"mark@gw.edu"</span><span class="p">,</span>
+                    <span class="nt">"affiliation"</span><span class="p">:</span> <span class="s2">"lee"</span><span class="p">,</span>
+                    <span class="nt">"email"</span><span class="p">:</span> <span class="s2">"mark@lee.com"</span><span class="p">,</span>
                     <span class="nt">"contribution"</span><span class="p">:</span> <span class="p">[</span>
-                        <span class="s2">"1"</span><span class="p">,</span>
-                        <span class="s2">"2"</span><span class="p">,</span>
-                        <span class="s2">"3"</span>
+                        <span class="s2">"approved"</span>
                     <span class="p">]</span>
                 <span class="p">}</span>
             <span class="p">}</span>
@@ -141,28 +140,27 @@ body .il { color: #0000cf; font-weight: bold } /* Literal.Number.Integer.Long */
         <span class="nt">"derived_from"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
         <span class="nt">"obsolete_after"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
         <span class="nt">"embargo"</span><span class="p">:</span> <span class="p">{},</span>
-        <span class="nt">"created"</span><span class="p">:</span> <span class="s2">"2019-08-15T17:29:22.169199"</span><span class="p">,</span>
-        <span class="nt">"modified"</span><span class="p">:</span> <span class="s2">"2019-08-15T17:29:22.169199"</span><span class="p">,</span>
+        <span class="nt">"created"</span><span class="p">:</span> <span class="s2">"2019-08-26T16:10:58.051253"</span><span class="p">,</span>
+        <span class="nt">"modified"</span><span class="p">:</span> <span class="s2">"2019-08-26T16:10:58.051253"</span><span class="p">,</span>
         <span class="nt">"contributors"</span><span class="p">:</span> <span class="p">[</span>
             <span class="p">{</span>
-                <span class="nt">"name"</span><span class="p">:</span> <span class="s2">"bob"</span><span class="p">,</span>
-                <span class="nt">"affiliation"</span><span class="p">:</span> <span class="s2">"lw"</span><span class="p">,</span>
-                <span class="nt">"email"</span><span class="p">:</span> <span class="s2">"bob@lw.edu"</span><span class="p">,</span>
+                <span class="nt">"name"</span><span class="p">:</span> <span class="s2">"mark"</span><span class="p">,</span>
+                <span class="nt">"affiliation"</span><span class="p">:</span> <span class="s2">"lee"</span><span class="p">,</span>
+                <span class="nt">"email"</span><span class="p">:</span> <span class="s2">"mark@lee.com"</span><span class="p">,</span>
                 <span class="nt">"contribution"</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="s2">"1"</span><span class="p">,</span>
-                    <span class="s2">"2"</span><span class="p">,</span>
-                    <span class="s2">"3"</span>
+                    <span class="s2">"approved"</span>
                 <span class="p">]</span>
             <span class="p">}</span>
         <span class="p">],</span>
-        <span class="nt">"license"</span><span class="p">:</span> <span class="s2">"http://license.com"</span>
+        <span class="nt">"license"</span><span class="p">:</span> <span class="s2">"http://license.com/license"</span>
     <span class="p">},</span>
     <span class="nt">"usability_domain"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">"one sentence for search"</span>
+        <span class="s2">"one search"</span>
     <span class="p">],</span>
-    <span class="nt">"description_domain"</span><span class="p">:</span> <span class="p">{</span>
+    <b class="error">ERROR: None is not of type 'string' --&gt; </b><span class="error">"description_domain"</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">"keywords"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="p">[]</span>
+            <span class="s2">"keyword"</span><span class="p">,</span>
+            <span class="s2">"keyword2"</span>
         <span class="p">],</span>
         <span class="nt">"xref"</span><span class="p">:</span> <span class="p">[],</span>
         <span class="nt">"platform"</span><span class="p">:</span> <span class="p">[</span>
@@ -329,14 +327,12 @@ body .il { color: #0000cf; font-weight: bold } /* Literal.Number.Integer.Long */
         <span class="p">],</span>
         <span class="nt">"external_data_endpoints"</span><span class="p">:</span> <span class="p">[</span>
             <span class="p">{</span>
-                <span class="nt">"name"</span><span class="p">:</span> <span class="s2">"endpoint"</span><span class="p">,</span>
+                <span class="nt">"name"</span><span class="p">:</span> <span class="s2">"end1"</span><span class="p">,</span>
                 <span class="nt">"url"</span><span class="p">:</span> <span class="s2">"http://endpoint.com/"</span>
             <span class="p">}</span>
         <span class="p">],</span>
         <span class="nt">"environment_variables"</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">"environmental_variables"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="nt">"enviro1"</span><span class="p">:</span> <span class="s2">"2.3"</span>
-            <span class="p">}</span>
+            <span class="nt">"environmental_variables"</span><span class="p">:</span> <span class="s2">"env11.0"</span>
         <span class="p">}</span>
     <span class="p">},</span>
     <span class="nt">"io_domain"</span><span class="p">:</span> <span class="p">{</span>
@@ -353,6 +349,28 @@ body .il { color: #0000cf; font-weight: bold } /* Literal.Number.Integer.Long */
                 <span class="nt">"mediatype"</span><span class="p">:</span> <span class="s2">"text/plain"</span>
             <span class="p">}</span>
         <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="nt">"error_domain"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"empirical_error"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">"comment"</span><span class="p">:</span> <span class="s2">"overal emp"</span><span class="p">,</span>
+            <span class="nt">"statistics"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="nt">"key"</span><span class="p">:</span> <span class="s2">"emp1"</span><span class="p">,</span>
+                    <span class="nt">"value"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                    <span class="nt">"description"</span><span class="p">:</span> <span class="s2">"commment mp1"</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="nt">"algorithmic_error"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">"comment"</span><span class="p">:</span> <span class="s2">"overall algo comment"</span><span class="p">,</span>
+            <span class="nt">"log_filename"</span><span class="p">:</span> <span class="s2">"logfilename"</span><span class="p">,</span>
+            <span class="nt">"exclusion_rules"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="nt">"constraint"</span><span class="p">:</span> <span class="s2">"algo1"</span><span class="p">,</span>
+                    <span class="nt">"unique_values"</span><span class="p">:</span> <span class="mf">3.0</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre>

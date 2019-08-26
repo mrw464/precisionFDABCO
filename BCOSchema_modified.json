@@ -831,7 +831,7 @@
                     }
                 },
                 "algorithmic_error": {
-                    "type": "array",
+                    "type": "object",
                     "title": "Algorithmic Error",
                     "description": "descriptive of errors that originate by fuzziness of the algorithms, driven by stochastic processes, in dynamically parallelized multi-threaded executions, or in machine learning methodologies where the state of the machine can affect the outcome.",
                     "items": {

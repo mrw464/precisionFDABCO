@@ -62,8 +62,14 @@ def workflow_conversion(galaxyIP, galaxyAPIkey, workflowID):
         step_dict = {}
         k = int(k)
         step_dict['name'] = v.pop('name', '')
+        if step_dict['name'] == None:
+            step_dict['name'] = ''
         step_dict['description'] = v.pop('label', '')
+        if step_dict['description'] == None:
+            step_dict['name'] = ''      
         step_dict['version'] = v.pop('tool_version', '')
+        if step_dict['version'] == None:
+            step_dict['version'] = ''
         step_dict['step_number'] = int(v.pop('id', ''))
 
         if k == 0:

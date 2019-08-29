@@ -33,7 +33,6 @@ def validate_BCO(BCO_filename):
                         print("Valid BCO")
                         return True, data
                     except jsonschema.exceptions.ValidationError as ve:
-                        print('Checkpoint validation error as vs')
                         try:
                             errorHandle(ve, url_name)
                         except:
@@ -148,14 +147,13 @@ def main(json_file=None):
 
 def errorHandle(ve, url_name):
 
-    print(f"Error message validator: {ve.validator}")
-    print(f"Error message validator value: {ve.validator_value}")
+
     print(f"Invalid BCO.\nError:\n{ve.message}")
-    print(f"Error relative path: {ve.relative_path}\n")
+
+
     if ve.validator_value is not False:
         checkForErrorMessage(ve.validator_value)
     relativePathLength = len(ve.relative_path)
-    print(f'relativepathlength: {relativePathLength}')
     if relativePathLength > 1:
         if 'is not of type' in ve.message:
             try:
@@ -180,8 +178,6 @@ def errorHandle(ve, url_name):
                     instance_number = ve.relative_path[-1]
                     errorOutput(i, ve, url_name, instance_number)
     elif relativePathLength == 1:
-        print('relative path lengh DOES equal 1')
-        print(f'lookup word for this: {ve.relative_path[0]}')
         errorOutput(ve.relative_path[0], ve, url_name)
         
     else:
@@ -234,12 +230,6 @@ def createHTMLOutput(BCO_filename, jsondata):
 
 def errorOutput(lookup_word, ve, url_name, instance_number=None):
 
-    print('entering error output test')
-    print(f'lookup word: {lookup_word}')
-    print(f've: {ve}')
-    print(f'url name: {url_name}')
-    print(f've.message: {ve.message}')
-    print(f'instance_number: {instance_number}')
 
     def createErrorTag(error):
         new_tag = soup.new_tag("b")

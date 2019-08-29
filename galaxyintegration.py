@@ -9,18 +9,13 @@ def workflow_conversion(galaxyIP, galaxyAPIkey, workflowID):
     import pathlib
 
 
-    #galaxyIP = 'https://usegalaxy.org/'
-    #galaxyAPIkey = '8ef9404a83483288f5fbb07f18ef61a7'
-    #galaxyIP = str(input('What is the URL address of the Galaxy instance?\n'))
-    #galaxyAPIkey = str(input('What is the API key of the Galaxy instance?\n'))
 
 
     gi = GalaxyInstance(galaxyIP, key=galaxyAPIkey)
     libs = gi.libraries.get_libraries()
 
 
-    #workflowID = '8d8e8927d63803ef'
-    #workflowID = str(input('What is the workflow ID to import?\n'))
+
 
     gi.workflows.show_workflow(workflowID)
 
@@ -34,10 +29,9 @@ def workflow_conversion(galaxyIP, galaxyAPIkey, workflowID):
     newworkflow['provenance_domain'] = {"name": name, "version": version}
 
 
-    # need to iterate through nested workflow steps for pipeline steps
     pipeline_steps = []
 
-    # definiting sub-function for extracting step outputs (to be inputs for the next step)
+    # defining sub-function for extracting step outputs (to be inputs for the next step)
     def output_extract(v):
         output = []
         if v.get('outputs', None) != None:

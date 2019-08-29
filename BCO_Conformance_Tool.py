@@ -34,7 +34,28 @@ def validate_BCO(BCO_filename):
                         return True, data
                     except jsonschema.exceptions.ValidationError as ve:
                         print('Checkpoint validation error as vs')
-                        errorHandle(ve, url_name)
+                        try:
+                            errorHandle(ve, url_name)
+                        except:
+                            error_highlight_css = '.error {background-color: yellow;}'
+
+
+                            with open(url_name) as p:
+                                soup = BeautifulSoup(p.read(), features='html.parser')
+
+                            soup.style.string = soup.style.string + error_highlight_css
+
+                            status_tag = soup.find("span", {"class": "success"})
+                            status_tag.attrs['class'] = 'error'
+                            status_tag.string.replace_with('BCO COMPLIANCE: FAILED -- error: ' + ve.message)
+
+                            
+                            new_text = soup.prettify()
+
+                            with open(url_name, mode='w') as new_html_file:
+                                new_html_file.write(new_text)
+                                new_html_file.close()
+
                         return False, data
                         
                 except ValueError as err:
@@ -141,7 +162,10 @@ def errorHandle(ve, url_name):
                 int(ve.relative_path[-1])
                 errorOutput(ve.relative_path[-2], ve, url_name, ve.relative_path[-1])    
             except ValueError:
-                errorOutput(ve.relative_path[-1], ve, url_name, ve.relative_path[-2])
+                if len(ve.relative_path) < 6:
+                    errorOutput(ve.relative_path[-1], ve, url_name, ve.relative_path[-2])
+                else:
+                    errorOutput(ve.instance[-1], ve, url_name)                    
         elif 'does not match' in ve.message:
             look_up = patternFailLookup(ve)
             errorOutput(look_up, ve, url_name)
@@ -258,7 +282,7 @@ def errorOutput(lookup_word, ve, url_name, instance_number=None):
                 
 
                 
-
+    
     error_highlight_css = '.error {background-color: yellow;}'
 
     soup.style.string = soup.style.string + error_highlight_css

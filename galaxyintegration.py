@@ -30,7 +30,6 @@ def workflow_conversion(galaxyIP, galaxyAPIkey, workflowID):
     newworkflow['bco_id'] = workflow.pop('uuid', '')
     keywords = workflow.pop('tags', '')
     version = str(str(workflow['version']) + '.0')
-    newworkflow['bco_id'] = workflow.pop('uuid', '')
     name = workflow.pop('name', '')
     newworkflow['provenance_domain'] = {"name": name, "version": version}
 
@@ -62,14 +61,8 @@ def workflow_conversion(galaxyIP, galaxyAPIkey, workflowID):
         step_dict = {}
         k = int(k)
         step_dict['name'] = v.pop('name', '')
-        if step_dict['name'] == None:
-            step_dict['name'] = ''
         step_dict['description'] = v.pop('label', '')
-        if step_dict['description'] == None:
-            step_dict['name'] = ''      
         step_dict['version'] = v.pop('tool_version', '')
-        if step_dict['version'] == None:
-            step_dict['version'] = ''
         step_dict['step_number'] = int(v.pop('id', ''))
 
         if k == 0:
@@ -77,15 +70,23 @@ def workflow_conversion(galaxyIP, galaxyAPIkey, workflowID):
             # which is never provided in the workflow. So will have to have a placeholder URN here...
             # along the lines of urn:dataset:user_provided_dataset
             
-            step_dict['input_list'] = {"uri": "urn:dataset:user_provided_dataset"}
+            step_dict['input_list'] = [{"uri": "user_dataset"}]
 
             # extract output for next step
             output = output_extract(v)
+            if output is not None:
+                output = [output]
+            elif output is None:
+                output=[]
             step_dict['output_list'] = output
 
         elif k >= 1:    # pull from previous step output for steps after first
             step_dict['input_list'] = output             
             output = output_extract(v)
+            if output is not None:
+                output = [output]
+            elif output is None:
+                output = []    
             step_dict['output_list'] = output
 
         pipeline_steps.append(step_dict.copy()) 
@@ -124,12 +125,12 @@ def workflow_conversion(galaxyIP, galaxyAPIkey, workflowID):
 
     input_subdomain = {"uri": ""}
     output_subdomain = {"uri": "", "mediatype": ""}
-    overall_input = newworkflow['description_domain']["pipeline_steps"][0]['input_list']
-    input_subdomain.update(overall_input)
+    overall_input = dict(newworkflow['description_domain']["pipeline_steps"][0]['input_list'][0])
+    input_subdomain['uri'] = overall_input['uri']
     step_length = int(len(newworkflow['description_domain']["pipeline_steps"]))
     step_length = step_length - 1
-    overall_output = newworkflow['description_domain']["pipeline_steps"][step_length]['output_list']
-    output_subdomain['uri'] = overall_output
+    overall_output = dict(newworkflow['description_domain']["pipeline_steps"][step_length]['output_list'][0])
+    output_subdomain['uri'] = overall_output['uri']
     media_type_dict = {
     ".txt": "text/plain",
     ".json": "application/json",
@@ -143,8 +144,8 @@ def workflow_conversion(galaxyIP, galaxyAPIkey, workflowID):
     if file_extension in media_type_dict.keys():            
         media_type = media_type_dict[file_extension]
         output_subdomain['mediatype'] = media_type
-        # should I put an else here to make media type blank?
-            
+    else:
+        output_subdomain['mediatype'] = ''
     
 
     newworkflow["io_domain"] = {"input_subdomain": [input_subdomain], "output_subdomain": [output_subdomain]}

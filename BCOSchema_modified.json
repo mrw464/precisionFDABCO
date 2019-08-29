@@ -36,8 +36,7 @@
                 },
                 "uri": {
                     "type": "string",
-                    "format": "uri",
-                    "pattern": "[a-zA-Z].*:(\/?\/?).*"
+                    "format": "uri"
                 },
                 "access_time": {
                     "type": "string",

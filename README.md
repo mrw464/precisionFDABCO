@@ -7,6 +7,7 @@ This submission adheres to the following version of the BCO specification;
 https://github.com/biocompute-objects/PrecisionFDA_App-a-thon/tree/master/base_schema
 
 **This software is licensed under the MIT License:**
+
 Copyright 2019 Deloitte Consulting
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
